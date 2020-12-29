@@ -7,8 +7,7 @@ services:
     networks:
       - movie-mysql
     depends_on:
-      - mysqldb:
-          condition: service_healthy
+      - mysqldb
  
   mysqldb:
     image: mysql:8
