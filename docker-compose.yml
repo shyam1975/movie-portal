@@ -7,7 +7,8 @@ services:
     networks:
       - movie-mysql
     depends_on:
-      - mysqldb
+      - mysqldb:
+          condition: service_healthy
  
   mysqldb:
     image: mysql:8
@@ -15,7 +16,12 @@ services:
       - movie-mysql
     environment:
       - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=movieportal  
+      - MYSQL_DATABASE=movieportal
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 45s
+      interval: 10s
+      retries: 10
 
 networks:
   movie-mysql:
